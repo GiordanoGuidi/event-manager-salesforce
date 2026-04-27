@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status_Must_Be_Confirmed_On_CheckIn</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(Check_In_Time__c)),
+    NOT(ISPICKVAL(Status__c, &quot;Confirmed&quot;))
+)</errorConditionFormula>
+    <errorMessage>If the invitation is confirmed the check in time should be present</errorMessage>
+</ValidationRule>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RSVP_Date_Required_on_Response</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    OR(
+        ISPICKVAL(Status__c, &quot;Confirmed&quot;),
+        ISPICKVAL(Status__c, &quot;Declined&quot;)
+    ),
+    ISBLANK(RSVP_Date__c)
+)</errorConditionFormula>
+    <errorMessage>The date is required on response on the invitation</errorMessage>
+</ValidationRule>
