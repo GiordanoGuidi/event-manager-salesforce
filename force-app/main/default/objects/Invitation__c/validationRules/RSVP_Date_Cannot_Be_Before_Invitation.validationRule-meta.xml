@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RSVP_Date_Cannot_Be_Before_Invitation</fullName>
+    <active>true</active>
+    <errorConditionFormula>RSVP_Date__c &lt; 	Invitation_Date__c</errorConditionFormula>
+    <errorMessage>The RSVP date cannot be before the invitation date</errorMessage>
+</ValidationRule>
