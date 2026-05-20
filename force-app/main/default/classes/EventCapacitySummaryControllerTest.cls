@@ -5,9 +5,13 @@ private class EventCapacitySummaryControllerTest {
         Event__c eventRecord = createEvent(5);
         Guest__c confirmedGuest = createGuest('Confirmed Guest', 'confirmed.summary@example.com');
         Guest__c declinedGuest = createGuest('Declined Guest', 'declined.summary@example.com');
+        Guest__c waitlistedGuest = createGuest('Waitlisted Guest', 'waitlisted.summary@example.com');
+
 
         createInvitation(eventRecord.Id, confirmedGuest.Id, 'Confirmed');
         createInvitation(eventRecord.Id, declinedGuest.Id, 'Declined');
+        createInvitation(eventRecord.Id, waitlistedGuest.Id, 'Waitlisted');
+
 
         Test.startTest();
         EventCapacitySummaryController.CapacitySummary summary =
@@ -15,6 +19,7 @@ private class EventCapacitySummaryControllerTest {
         Test.stopTest();
 
         System.assertEquals(5, summary.maxCapacity, 'The summary should expose the configured max capacity.');
+        System.assertEquals(1, summary.waitlistedSeats, 'Waitlisted invitations should be counted separately from reserved seats.');
         System.assertEquals(1, summary.reservedSeats, 'Only Confirmed and Attended invitations should reserve seats.');
         System.assertEquals(4, summary.availableSeats, 'Available seats should be max capacity minus reserved seats.');
         System.assertEquals(20, summary.occupancyPercentage, 'Occupancy should be returned as an integer percentage.');
@@ -50,6 +55,7 @@ private class EventCapacitySummaryControllerTest {
 
         createInvitation(eventRecord.Id, createGuest('Confirmed Guest', 'sold.confirmed@example.com').Id, 'Confirmed');
         createInvitation(eventRecord.Id, createGuest('Attended Guest', 'sold.attended@example.com').Id, 'Attended');
+        createInvitation(eventRecord.Id, createGuest('Waitlisted Guest', 'sold.waitlisted@example.com').Id, 'Waitlisted');
 
         Test.startTest();
         EventCapacitySummaryController.CapacitySummary summary =
@@ -57,6 +63,7 @@ private class EventCapacitySummaryControllerTest {
         Test.stopTest();
 
         System.assertEquals(2, summary.reservedSeats, 'Confirmed and Attended invitations should both reserve seats.');
+        System.assertEquals(1, summary.waitlistedSeats, 'Waitlisted guests should remain separate even when the event is sold out.');
         System.assertEquals(0, summary.availableSeats, 'Available seats should never be negative.');
         System.assertEquals(100, summary.occupancyPercentage, 'Displayed occupancy should be capped at 100%.');
         System.assertEquals('Sold out', summary.statusLabel, 'Full or overfilled events should be marked sold out.');
