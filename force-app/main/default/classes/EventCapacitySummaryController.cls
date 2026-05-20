@@ -26,21 +26,32 @@ public with sharing class EventCapacitySummaryController {
             AND Status__c IN :RESERVED_STATUSES
         ];
 
-        return new CapacitySummary(events[0].Max_Capacity__c, reservedSeats);
+        Integer waitlistedSeats = [
+            SELECT COUNT()
+            FROM Invitation__c
+            WHERE Event__c = :eventId
+            AND Status__c = 'Waitlisted'
+        ];
+
+
+        return new CapacitySummary(events[0].Max_Capacity__c, reservedSeats,waitlistedSeats);
     }
 
     public class CapacitySummary {
         @AuraEnabled public Integer maxCapacity;
         @AuraEnabled public Integer reservedSeats;
+        @AuraEnabled public Integer waitlistedSeats;
         @AuraEnabled public Integer availableSeats;
         @AuraEnabled public Integer occupancyPercentage;
         @AuraEnabled public Boolean hasCapacity;
         @AuraEnabled public String statusLabel;
         @AuraEnabled public String statusTheme;
 
-        public CapacitySummary(Decimal maxCapacityValue, Integer reservedSeatsValue) {
+
+        public CapacitySummary(Decimal maxCapacityValue, Integer reservedSeatsValue,Integer waitlistedSeatsValue) {
             reservedSeats = reservedSeatsValue == null ? 0 : reservedSeatsValue;
             hasCapacity = maxCapacityValue != null;
+            waitlistedSeats = waitlistedSeatsValue == null ? 0 : waitlistedSeatsValue;
 
             if (!hasCapacity) {
                 maxCapacity = null;
