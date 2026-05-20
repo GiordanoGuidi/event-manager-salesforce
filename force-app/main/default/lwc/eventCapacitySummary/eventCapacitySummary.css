@@ -1,0 +1,61 @@
+.capacity-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.capacity-main-number {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.capacity-status {
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+    white-space: nowrap;
+}
+
+.capacity-status_success {
+    background: #e4f7e8;
+    color: #1f7a35;
+}
+
+.capacity-status_warning {
+    background: #fff3cd;
+    color: #8a5a00;
+}
+
+.capacity-status_error {
+    background: #fde7e9;
+    color: #ba0517;
+}
+
+.capacity-status_neutral {
+    background: #f3f3f3;
+    color: #444444;
+}
+
+.capacity-progress {
+    background: #e5e5e5;
+    border-radius: 999px;
+    height: 0.55rem;
+    margin: 1rem 0;
+    overflow: hidden;
+}
+
+.capacity-progress__bar {
+    background: #0176d3;
+    border-radius: inherit;
+    height: 100%;
+    transition: width 0.2s ease;
+}
+
+.capacity-metrics {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}

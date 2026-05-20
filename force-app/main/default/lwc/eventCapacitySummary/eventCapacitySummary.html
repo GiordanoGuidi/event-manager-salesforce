@@ -1,0 +1,46 @@
+<template>
+    <!-- Card shown on the Event__c record page to give admins a quick capacity snapshot. -->
+    <lightning-card title="Disponibilita posti" icon-name="standard:event">
+        <div class="slds-p-around_medium">
+            <template lwc:if={isLoading}>
+                <lightning-spinner alternative-text="Caricamento disponibilita" size="small"></lightning-spinner>
+            </template>
+
+            <template lwc:elseif={error}>
+                <div class="slds-text-color_error">
+                    Impossibile caricare la disponibilita posti.
+                </div>
+            </template>
+
+            <template lwc:elseif={hasSummary}>
+                <div class="capacity-header">
+                    <div>
+                        <p class="slds-text-title_caps">Posti disponibili</p>
+                        <p class="capacity-main-number">
+                            {availableSeatsLabel} / {maxCapacityLabel}
+                        </p>
+                    </div>
+
+                    <span class={statusClass}>
+                        {summary.statusLabel}
+                    </span>
+                </div>
+
+                <div class="capacity-progress" aria-label="Occupazione evento">
+                    <div class="capacity-progress__bar" style={progressStyle}></div>
+                </div>
+
+                <div class="capacity-metrics">
+                    <div>
+                        <p class="slds-text-title_caps">Riservati</p>
+                        <p>{summary.reservedSeats}</p>
+                    </div>
+                    <div>
+                        <p class="slds-text-title_caps">Occupazione</p>
+                        <p>{summary.occupancyPercentage}%</p>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>
