@@ -26,11 +26,6 @@
                 <label>Declined</label>
             </value>
             <value>
-                <fullName>Waitlisted</fullName>
-                <default>false</default>
-                <label>Waitlisted</label>
-            </value>
-            <value>
                 <fullName>Cancelled</fullName>
                 <default>false</default>
                 <label>Cancelled</label>
@@ -44,6 +39,11 @@
                 <fullName>No Show</fullName>
                 <default>false</default>
                 <label>No Show</label>
+            </value>
+            <value>
+                <fullName>Waitlisted</fullName>
+                <default>false</default>
+                <label>Waitlisted</label>
             </value>
         </valueSetDefinition>
     </valueSet>

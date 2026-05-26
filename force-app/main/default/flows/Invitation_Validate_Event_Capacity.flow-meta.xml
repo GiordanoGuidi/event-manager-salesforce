@@ -29,17 +29,6 @@
     </actionCalls>
     <apiVersion>66.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
-    <customErrors>
-        <name>Show_Capacity_Exceeded_Error</name>
-        <label>Show Capacity Exceeded Error</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <customErrorMessages>
-            <errorMessage>This event has reached its maximum capacity. You can&apos;t confirm more invitations.</errorMessage>
-            <fieldSelection>Status__c</fieldSelection>
-            <isFieldError>true</isFieldError>
-        </customErrorMessages>
-    </customErrors>
     <decisions>
         <name>Is_Event_Capacity_Exceeded</name>
         <label>Is Event Capacity Exceeded</label>
@@ -57,7 +46,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Show_Capacity_Exceeded_Error</targetReference>
+                <targetReference>Move_Invitation_To_Waitlist</targetReference>
             </connector>
             <label>Capacity Exceeded</label>
         </rules>
@@ -84,6 +73,20 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Automatically moves the invitation to Waitlisted when the event is already full.</description>
+        <name>Move_Invitation_To_Waitlist</name>
+        <label>Move Invitation To Waitlist</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Status__c</field>
+            <value>
+                <stringValue>Waitlisted</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
     <start>
         <locationX>0</locationX>
         <locationY>0</locationY>
@@ -96,13 +99,6 @@
             <operator>EqualTo</operator>
             <value>
                 <stringValue>Confirmed</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Status__c</field>
-            <operator>IsChanged</operator>
-            <value>
-                <booleanValue>true</booleanValue>
             </value>
         </filters>
         <object>Invitation__c</object>
