@@ -8,6 +8,31 @@
             <stringValue>{&quot;location&quot;:&quot;top&quot;,&quot;type&quot;:&quot;simple&quot;}</stringValue>
         </value>
     </customProperties>
+    <decisions>
+        <name>Guest_Already_Exists</name>
+        <label>Guest Already Exists?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Create_Guest</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Create New Guest</defaultConnectorLabel>
+        <rules>
+            <name>Already_Exists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Existing_Guest.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Guest_Already_Exists_Screen</targetReference>
+            </connector>
+            <label>Already Exists</label>
+        </rules>
+    </decisions>
     <environments>Default</environments>
     <interviewLabel>Create Guest from Contact {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Create Guest from Contact</label>
@@ -84,7 +109,7 @@
         <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Create_Guest</targetReference>
+            <targetReference>Get_Existing_Guest</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -98,6 +123,51 @@
         <object>Contact</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordLookups>
+        <name>Get_Existing_Guest</name>
+        <label>Get Existing Guest</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Guest_Already_Exists</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Contact__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Guest__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <screens>
+        <name>Guest_Already_Exists_Screen</name>
+        <label>Guest Already Exists_Info</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>Guest_Already_Exist</name>
+            <fieldText>&lt;p&gt;A Guest already exists for this Contact.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
     <screens>
         <name>Guest_Created</name>
         <label>Guest Created</label>
