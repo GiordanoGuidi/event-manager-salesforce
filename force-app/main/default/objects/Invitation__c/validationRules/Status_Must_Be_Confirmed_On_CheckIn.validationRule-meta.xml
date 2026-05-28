@@ -4,7 +4,7 @@
     <active>true</active>
     <errorConditionFormula>AND(
     NOT(ISBLANK(Check_In_Time__c)),
-    NOT(ISPICKVAL(Status__c, &quot;Confirmed&quot;))
+    NOT(ISPICKVAL(Status__c, &quot;Attended&quot;))
 )</errorConditionFormula>
-    <errorMessage>If the invitation is confirmed the check in time should be present</errorMessage>
+    <errorMessage>Check-in time can only be set when the invitation status is Attended.</errorMessage>
 </ValidationRule>
